@@ -16,7 +16,8 @@ export default [
 			'no-shadow': ['error'],
 			'react-hooks/exhaustive-deps': [0],
 			'space-before-function-paren': [1],
-			'no-unused-vars': [0]
+			'no-unused-vars': [0],
+			'react/prop-types': 'off'
 		}
 	}
 ]
