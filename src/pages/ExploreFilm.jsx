@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import getCorsProxyUrl from '../../utilities/getProxyUrl'
 import filmStockIDs from '../../data/filmStockIDs'
 import { Button } from '@/components/ui/button'
@@ -8,15 +8,40 @@ import { Input } from '@/components/ui/input'
 import { LazyLoadImage } from 'react-lazy-load-image-component'
 
 const ExploreFilm = () => {
-	const [searchedFilm, setSearchedFilm] = useState([])
+	const [searchedFilm, setSearchedFilm] = useState([]) // Array of objects, each object containing film name and photos
 	const [filmStock, setFilmStock] = useState('')
 	const [loading, setLoading] = useState(false)
 	const [matchingFilmStockCount, setMatchingFilmStockCount] = useState(0)
+	const [error, setError] = useState('')
 
-	const fetchfilmStockPhotos = async (film) => {
-		const res = await fetch(`api/filmstock/${film}`, )
-		const data = await res.json()
-		return data.photos
+	useEffect(() => {
+		const popularPhotos = fetchPopularFilmPhotos()
+		popularPhotos.then((photos) => {
+			setSearchedFilm([{ name: 'Popular Film Stocks', photos }])
+		})
+	}, [])
+
+	const fetchPopularFilmPhotos = async () => {
+		try {
+			const res = await fetch('/filmstock')
+			const data = await res.json()
+			console.log(data.photos)
+			return data.photos
+		} catch (e) {
+			setError(e)
+			return []
+		}
+	}
+
+	const fetchfilmStockPhotos = async (filmId) => {
+		try {
+			const res = await fetch(`/filmstock/${filmId}`)
+			const data = await res.json()
+			return data.photos
+		} catch (e) {
+			setError(e)
+			return []
+		}
 	}
 
 	async function getFilmStock () {
@@ -45,6 +70,8 @@ const ExploreFilm = () => {
 		})
     
 		const filmInfos = await Promise.all(filmPromises)
+
+		console.log(filmInfos)
 		setSearchedFilm(prevSearchedFilm => [...prevSearchedFilm, ...filmInfos])
 
 		setLoading(false)
@@ -53,7 +80,7 @@ const ExploreFilm = () => {
 	return (
 		<div className='p-6 bg-gray-100 min-h-screen'>
 			<div className='mb-6'>
-				<h1 className='font-bold text-4xl mb-4 text-center text-gray-800'>Explore Film Characteristics Here!</h1>
+				<h1 className='font-bold text-4xl mb-4 text-center text-gray-800' onClick={() => console.log(searchedFilm)}>Explore Film Characteristics Here!</h1>
 				<p className='mb-6 text-center text-gray-600'>Discover new and exciting films here!</p>
 				<div className='flex gap-4 items-center justify-center'>
 					<FilmStockInput 
@@ -83,7 +110,7 @@ const ExploreFilm = () => {
 						<div key={film.name} className='p-6 border rounded-md shadow-md bg-white'>
 							<h2 className='font-semibold text-2xl mb-4 text-gray-800'>{film.name}</h2>
 							<div className='flex gap-4 flex-wrap'>
-								{film.photos.slice(0, 10).map(photo => (
+								{film?.photos?.slice(0, 10).map(photo => (
 									<div key={photo.id} className="relative group w-80 h-80">
 										<LazyLoadImage
 											src={photo.assets.large.url}
