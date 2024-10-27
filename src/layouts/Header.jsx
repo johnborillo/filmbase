@@ -8,10 +8,12 @@ const Header = () => {
 	return (
 		<header className="bg-stone-800 text-stone-100 p-4 shadow-md">
 			<div className="container mx-auto flex flex-col sm:flex-row justify-between items-center">
-				<div className="flex items-center mb-4 sm:mb-0">
-					<Film className="h-8 w-8 mr-2" />
-					<h1 className="text-3xl font-bold tracking-tight">{name}</h1>
-				</div>
+				<a href="/" className="text-2xl font-bold tracking-tight">
+					<div className="flex items-center mb-4 sm:mb-0">
+						<Film className="h-8 w-8 mr-2" />
+						<h1 className="text-3xl font-bold tracking-tight">{name}</h1>
+					</div>
+				</a>
 				<nav>
 					<ul className="flex flex-wrap justify-center gap-2">
 						<li>

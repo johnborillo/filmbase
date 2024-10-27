@@ -19,6 +19,7 @@ FilmBase is a React application built with Vite that allows users to explore var
 - **React Router**: Declarative routing for React applications.
 - **Radix UI**: Unstyled, accessible components for building high-quality design systems and web apps.
 - **Lucide Icons**: Beautiful & consistent icon toolkit.
+- **Vite + Exress:** ViteJS integration module for ExpressJS ([https://github.com/szymmis/vite-express](https://github.com/szymmis/vite-express))
 
 ## Getting Started
 
@@ -54,6 +55,7 @@ bun run dev
 This will start the server at http://localhost:5173/.
 
 ### Available Scripts
+
 In the project directory, you can run:
 
 ```sh

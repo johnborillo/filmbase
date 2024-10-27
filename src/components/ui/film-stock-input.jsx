@@ -13,6 +13,7 @@ export default function FilmStockInput ({ label, placeholder, onChange, calledFu
 					className="w-full bg-stone-200 border-stone-300 text-black-1000 placeholder-stone-500 focus:border-stone-500 focus:ring-amber-500"
 					placeholder={placeholder}
 					onChange={onChange}
+					autoComplete="off"
 					onKeyDown={(e) => {
 						if (e.key === 'Enter') {
 							calledFunction()
